@@ -33,34 +33,34 @@
 	}).addTo( map );
 
 
-		//CURRENT POSITION
+    //CURRENT POSITION
 
-		var current_position;
-		//This doesn't always work... Find a new solution!
-		var firstTime = true;
-		function onLocationFound(e)
-		{
-			firstTime = false;
-			if (current_position)
-			{
-				map.removeLayer(current_position);
-			}
-			current_position = L.marker(e.latlng).addTo(map)
-		}
+    var current_position;
+    //This doesn't always work... Find a new solution!
+    var firstTime = true;
+    function onLocationFound(e)
+    {
+        firstTime = false;
+        if (current_position)
+        {
+            map.removeLayer(current_position);
+        }
+        current_position = L.marker(e.latlng).addTo(map)
+    }
 
-		function onLocationError(e) {
-			console.log(e.message);
-		}
+    function onLocationError(e) {
+        console.log(e.message);
+    }
 
-		map.on('locationfound', onLocationFound);
-		map.on('locationerror', onLocationError);
+    map.on('locationfound', onLocationFound);
+    map.on('locationerror', onLocationError);
 
-		function locate() {
-			map.locate({setView: firstTime, maxZoom: 16});
-		}
+    function locate() {
+        map.locate({setView: firstTime, maxZoom: 16});
+    }
 
-		// call locate every 3 seconds... forever
-		setInterval(locate, 3000);
+    // call locate every 3 seconds... forever
+    setInterval(locate, 3000);
 
 
 	//DRAW
