@@ -33,6 +33,36 @@
 	}).addTo( map );
 
 
+		//CURRENT POSITION
+
+		var current_position;
+		//This doesn't always work... Find a new solution!
+		var firstTime = true;
+		function onLocationFound(e)
+		{
+			firstTime = false;
+			if (current_position)
+			{
+				map.removeLayer(current_position);
+			}
+			current_position = L.marker(e.latlng).addTo(map)
+		}
+
+		function onLocationError(e) {
+			console.log(e.message);
+		}
+
+		map.on('locationfound', onLocationFound);
+		map.on('locationerror', onLocationError);
+
+		function locate() {
+			map.locate({setView: firstTime, maxZoom: 16});
+		}
+
+		// call locate every 3 seconds... forever
+		setInterval(locate, 3000);
+
+
 	//DRAW
 
 	var drawnItems = new L.FeatureGroup();
@@ -45,22 +75,24 @@
 	});
 	map.addControl(drawControl);
 
-		map.on('draw:created', function(e) {
-			var type = e.layerType,
-				layer = e.layer;
+    var toolbar;
+    for (var toolbarId in drawControl._toolbars) {
+      toolbar = drawControl._toolbars[toolbarId];
+      if (toolbar instanceof L.EditToolbar) {
+        toolbar._modes.edit.handler.enable();
+      }
+    }
 
-			if (type === 'marker') {
-				layer.bindPopup('A popup!');
-			}
+    map.on('draw:created', function(e) {
+      var type = e.layerType,
+        layer = e.layer;
 
-          drawnItems.addLayer(layer);
-		});
+      if (type === 'marker') {
+        layer.bindPopup('A popup!');
+      }
 
-		/*
-        var toolbar = L.Toolbar();
-        toolbar.addToolbar(map);
-         */
-
+      drawnItems.addLayer(layer);
+    });
 
 
 	//PRESSED BUTTONS
@@ -89,37 +121,6 @@
     map.on('click', onMapClick);
 
 */
-
-    //CURRENT POSITION
-
-    var current_position;
-
-	function onLocationFound(e) {
-
-      if (current_position)
-      {
-        map.removeLayer(current_position);
-      }
-      current_position = L.marker(e.latlng).addTo(map)
-	}
-
-	function onLocationError(e) {
-		//console.log(e.message);
-	}
-
-	map.on('locationfound', onLocationFound);
-	map.on('locationerror', onLocationError);
-
-	//This doesn't always work... Find a new solution!
-	var firstTime = true;
-
-		function locate() {
-			map.locate({setView: firstTime, maxZoom: 16});
-					firstTime = false;
-		}
-
-		// call locate every 3 seconds... forever
-		setInterval(locate, 3000);
 
 </script>
 
