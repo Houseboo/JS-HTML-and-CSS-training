@@ -13,8 +13,10 @@
 <body>
 <h1>Leaflet Example</h1>
 
+<!--
 <button onclick="selectBtnPress()" id="selectArea" class="btn"> Select Area</button>
 <button onclick="confirmBtnPress()" id="confirmArea" class="btn"> Confirm Area </button>
+-->
 
 <div id="map" style="height: 440px; border: 1px solid #AAA;"></div>
 
@@ -43,9 +45,6 @@
 	});
 	map.addControl(drawControl);
 
-    var drawnItems = new L.FeatureGroup();
-    map.addLayer(drawnItems);
-
 		map.on('draw:created', function(e) {
 			var type = e.layerType,
 				layer = e.layer;
@@ -65,6 +64,7 @@
 
 
 	//PRESSED BUTTONS
+/*
 
 	var selectBtnPressed = false;
 	var popup = L.popup();
@@ -85,6 +85,10 @@
     function confirmBtnPress() {
       selectBtnPressed = false;
     }
+
+    map.on('click', onMapClick);
+
+*/
 
     //CURRENT POSITION
 
@@ -116,8 +120,6 @@
 
 		// call locate every 3 seconds... forever
 		setInterval(locate, 3000);
-
-	map.on('click', onMapClick);
 
 </script>
 
